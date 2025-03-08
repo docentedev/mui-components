@@ -1,11 +1,10 @@
-import Button from '@mui/material/Button';
-
-import './App.css'
+import { MaterialType } from './components/material-type';
 
 function App() {
   return (
     <>
-      <Button variant="contained">Hello world</Button>
+      <MaterialType material="Gold" size="large" />
+      <MaterialType material="Silver" size="large" />
     </>
   )
 }

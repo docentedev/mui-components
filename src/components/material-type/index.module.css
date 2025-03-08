@@ -1,0 +1,14 @@
+.materialType {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.icon {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+}
