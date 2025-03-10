@@ -2,12 +2,21 @@ import { Button, Card, CardContent, CardHeader, Divider, Stack, Typography } fro
 import { MaterialType } from '../../components/material-type';
 import Table from '../../components/table';
 import { Material } from '../../components/material-type/types';
+import ModalInputIndex from '../../components/modal-input';
+import { useState } from 'react';
 
 interface MaterialTypeIndexProps {
     title: string;
 }
 
+
+
 const MaterialTypeIndex: React.FC<MaterialTypeIndexProps> = ({ title }) => {
+    const [openModal, setOpenModal] = useState(false);
+
+    const handleOpenModal = () => setOpenModal(true);
+    const handleCloseModal = () => setOpenModal(false);
+
     return (
         <>
             <Typography
@@ -32,8 +41,8 @@ const MaterialTypeIndex: React.FC<MaterialTypeIndexProps> = ({ title }) => {
                                             <Button variant="contained" color="secondary">
                                                 secundario
                                             </Button>
-                                            <Button variant="contained" color="primary">
-                                                primario
+                                            <Button variant="contained" color="primary" onClick={handleOpenModal}>
+                                                Nuevo Mensaje
                                             </Button>
                                         </Stack>
                                     )
@@ -50,6 +59,12 @@ const MaterialTypeIndex: React.FC<MaterialTypeIndexProps> = ({ title }) => {
                 </CardContent>
             </Card>
             <Divider sx={{ my: 2 }} />
+
+            <ModalInputIndex
+                open={openModal}
+                onClose={handleCloseModal}
+            />
+            
         </>
     );
 }
