@@ -2,13 +2,44 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px;
+    padding: 0;
     border-radius: 5px;
-    margin-bottom: 10px;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 0.5rem;
 }
 
 .icon {
     border-radius: 50%;
-    width: 40px;
-    height: 40px;
+    width: 2rem;
+    height: 2rem;
+    min-width: 2rem;
+    min-height: 2rem;
+    text-transform: capitalize;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.materialType .label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+
+.materialType[data-size='medium'] .icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    min-width: 2.5rem;
+    min-height: 2.5rem;
+    font-size: 1rem;
+}
+
+.materialType[data-size='medium'] .label {
+    font-size: 1rem;
 }

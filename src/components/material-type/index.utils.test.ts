@@ -18,10 +18,10 @@ describe('Utils for MaterialType', () => {
                         expect(result).toBe(Token.Color.SilverLight);
                         break;
                     case 'ExclusiveBrand':
-                        expect(result).toBe('hsl(0deg 0% 20%)');
+                        expect(result).toBe('hsl(29.63deg 57.78% 48.31%)');
                         break;
                     case 'Collected':
-                        expect(result).toBe('hsl(0deg 0% 50%)');
+                        expect(result).toBe('#52bdeb');
                         break;
                 }
             });
@@ -36,10 +36,10 @@ describe('Utils for MaterialType', () => {
                         expect(result).toBe(Token.Color.SilverDark);
                         break;
                     case 'ExclusiveBrand':
-                        expect(result).toBe('hsl(0deg 0% 100%)');
+                        expect(result).toBe('#371c03');
                         break;
                     case 'Collected':
-                        expect(result).toBe('hsl(0deg 0% 100%)');
+                        expect(result).toBe('#0a4067');
                         break;
                 }
             });

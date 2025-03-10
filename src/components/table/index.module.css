@@ -1,0 +1,158 @@
+.container {
+    width: 100%;
+    overflow-x: auto;
+    position: relative;
+    border-radius: 0.25rem;
+    background-color: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.container:not([data-disabled-empty-data='true']) {
+    min-height: 15rem;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th,
+.table td {
+    border-bottom: 1px solid rgba(224, 224, 224, 1);
+    padding: 1rem;
+    text-align: left;
+    font-size: 0.9rem;
+}
+
+.table tr:last-child td {
+    border-bottom: none;
+}
+
+.table th {
+    color: white;
+}
+
+.table th[data-sortable='true'] {
+    cursor: pointer;
+    color: white;
+    font-weight: 700;
+}
+
+.table th[data-sortable='true']:hover {
+    background-color: #1565c0;
+}
+
+.table tr:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+}
+
+/* Dark mode */
+.container[data-theme='dark'] {
+    background-color: #1e1e1e;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.table[data-theme='dark'] th,
+.table[data-theme='dark'] td {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.table[data-theme='dark'] th {
+    background-color: rgb(235 92 38);
+    color: rgb(33 33 33);
+}
+
+.table[data-theme='dark'] th[data-sortable='true'] {
+    background-color: rgb(33 33 33);
+    color: #67b0ff;
+}
+
+.table[data-theme='dark'] th[data-sortable='true']:hover {
+    color: rgb(24 118 210);
+    background-color: rgb(33 33 33);
+}
+
+.table[data-theme='dark'] tr:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+/* Loader */
+.loading {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    /*z-index: 1000;*/
+    background: rgb(45 45 45 / 82%);
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loader {
+    width: 48px;
+    height: 48px;
+    border: 5px solid #FFF;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.table[data-size='small'] th,
+.table[data-size='small'] td {
+    padding: 0.5rem;
+}
+
+.table[data-size='small'] th {
+    font-size: 0.8rem;
+}
+
+.table[data-size='small'] td {
+    font-size: 0.8rem;
+}
+
+.card {
+    display: none;
+}
+
+@media screen and (max-width: 1024px) {
+
+    .container[data-responsive='true'] {
+        display: none;
+    }
+
+    .card {
+        display: inherit;
+    }
+}
+
+.container:hover {
+    transition: box-shadow 0.3s;
+    box-shadow: 0 0 10px 0.25rem rgba(0, 0, 0, 0.1);
+}
+
+td.emptyData {
+    text-align: center;
+}
+
+td.emptyData div {
+    padding: 1rem;
+    color: #999;
+    font-size: 0.9rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

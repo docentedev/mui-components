@@ -5,10 +5,10 @@ import styles from './index.module.css';
 interface MaterialTypeProps {
     size?: Size;
     material: Material;
-    text?: string;
+    label?: string;
 }
 
-export const MaterialType: React.FC<MaterialTypeProps> = ({ size, material, text }) => {
+export const MaterialType: React.FC<MaterialTypeProps> = ({ size, material, label }) => {
     return (
         <div data-size={size} className={styles.materialType}>
             <i
@@ -20,7 +20,7 @@ export const MaterialType: React.FC<MaterialTypeProps> = ({ size, material, text
             >
                 {getAbbr(material)}
             </i>
-            {text}
+            {label && <span role="span">{label}</span>}
         </div>
     );
 };

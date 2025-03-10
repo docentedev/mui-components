@@ -11,6 +11,15 @@ const theme = createTheme({
       light: Token.Color.PrimaryLight,
       dark: Token.Color.PrimaryDark,
     },
+    secondary: {
+      main: Token.Color.SecondaryMain,
+      light: Token.Color.SecondaryLight,
+      dark: Token.Color.SecondaryDark,
+    },
+    common: {
+      black: Token.Color.Dark,
+      white: Token.Color.Light,
+    },
   },
 });
 
