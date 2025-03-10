@@ -1,3 +1,3 @@
 # Aurus UI
 
-Componentes de UI para Aurus
+Componentes de UI para Aurus.
