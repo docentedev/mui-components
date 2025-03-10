@@ -8,9 +8,9 @@ export const getColorBackground = (material: Material) => {
         case 'Silver':
             return Token.Color.SilverLight;
         case 'ExclusiveBrand':
-            return 'hsl(0deg 0% 20%)';
+            return Token.Color.ExclusiveBrandLight;
         case 'Collected':
-            return 'hsl(0deg 0% 50%)';
+            return Token.Color.CollectedLight;
     }
 }
 
@@ -21,9 +21,9 @@ export const getColorText = (material: Material) => {
         case 'Silver':
             return Token.Color.SilverDark;
         case 'ExclusiveBrand':
-            return 'hsl(0deg 0% 100%)';
+            return Token.Color.ExclusiveBrandDark;
         case 'Collected':
-            return 'hsl(0deg 0% 100%)';
+            return Token.Color.CollectedDark;
     }
 }
 

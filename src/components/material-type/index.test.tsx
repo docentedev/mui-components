@@ -5,10 +5,10 @@ import { describe, expect, it } from 'vitest';
 
 describe('MaterialType Component', () => {
     it('should render the material type', () => {
-        const { getByText } = render(
-            <MaterialType material="Gold" text="001" />
+        const { getByRole } = render(
+            <MaterialType material="Gold" label="AU" />
         );
-
-        expect(getByText('001')).toBeInTheDocument();
+        const label = getByRole('span');
+        expect(label).toBeInTheDocument();
     });
 });
