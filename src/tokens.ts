@@ -7,7 +7,7 @@ const ExclusiveBrandDark = '#371c03';
 const CollectedLight = '#52bdeb';
 const CollectedDark = '#0a4067';
 
-const PrimaryMain = 'hsl(45.1deg 100% 70%)';
+const PrimaryMain = 'hsl(45.1deg 30% 50%)';
 const PrimaryLight = 'hsl(45.1deg 100% 90%)';
 const PrimaryDark = 'hsl(45 90% 60% / 1)'; // versión Dark se resta 10% de L y H
 
