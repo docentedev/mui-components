@@ -9,14 +9,19 @@ interface ModalInputIndexProps {
 }
 
 const ModalInputIndex: React.FC<ModalInputIndexProps> = ({ open, onClose }) => {
-  const { message, handleMessageChange, handleSendMessage } = useMessage();
+  const { message, error ,handleMessageChange, handleSendMessage, clearError  } = useMessage();
+
+  const handleModalClose = () => {
+    clearError();
+    onClose();
+  }
 
   return (
-    <Modal open={open} onClose={onClose} className={styles.modal}>
+    <Modal open={open} onClose={handleModalClose} className={styles.modal}>
       <Paper className={styles.paper}>
         <Box className={styles.boxTitle}>
           <Typography variant="h5">Confirmacion de Envio</Typography>
-          <CloseIcon onClick={onClose} className={styles.closeIcon} />
+          <CloseIcon onClick={handleModalClose} className={styles.closeIcon} />
           <Divider />
         </Box>
 
@@ -34,15 +39,17 @@ const ModalInputIndex: React.FC<ModalInputIndexProps> = ({ open, onClose }) => {
               variant="outlined"
               value={message}
               onChange={handleMessageChange}
+              error={!!error}
+              helperText={error}
             />
           </Box>
 
           <Box className={styles.buttonContainer}>
-            <Button onClick={onClose} variant="contained" color="error">
+            <Button onClick={handleModalClose} variant="contained" color="error">
               Cancelar
             </Button>
             <Button
-              onClick={() => handleSendMessage(onClose)}
+              onClick={() => handleSendMessage(handleModalClose)}
               variant="contained"
               color="info"
             >
