@@ -25,7 +25,6 @@ const meta = {
       description: 'Size of the MaterialType component',
     },
     material: {
-      // utilzar el tipo Material
       options: ['Gold', 'Silver', 'ExclusiveBrand', 'Collected'],
       control: { type: 'select' },
       value: 'Gold',
@@ -40,5 +39,6 @@ type Story = StoryObj<typeof meta>;
 export const Component: Story = {
   args: {
     size: 'medium',
+    material: 'Gold',
   },
 };
