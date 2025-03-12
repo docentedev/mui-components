@@ -1,7 +1,8 @@
-import { Box, Button, Divider, Modal, Paper, TextField, Typography,} from "@mui/material";
-import { useMessage } from "./index.utils";
-import styles from "./index.module.css";
-import CloseIcon from "@mui/icons-material/Close";
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import { useMessage } from './index.utils';
+import styles from './index.module.css';
+import Input from '../input';
 
 interface ModalInputIndexProps {
   open: boolean;
@@ -9,7 +10,7 @@ interface ModalInputIndexProps {
 }
 
 const ModalInputIndex: React.FC<ModalInputIndexProps> = ({ open, onClose }) => {
-  const { message, error ,handleMessageChange, handleSendMessage, clearError  } = useMessage();
+  const { message, error, handleMessageChange, handleSendMessage, clearError } = useMessage();
 
   const handleModalClose = () => {
     clearError();
@@ -17,48 +18,37 @@ const ModalInputIndex: React.FC<ModalInputIndexProps> = ({ open, onClose }) => {
   }
 
   return (
-    <Modal open={open} onClose={handleModalClose} className={styles.modal}>
-      <Paper className={styles.paper}>
-        <Box className={styles.boxTitle}>
-          <Typography variant="h5">Confirmacion de Envio</Typography>
-          <CloseIcon onClick={handleModalClose} className={styles.closeIcon} />
-          <Divider />
-        </Box>
-
-        <Box className={styles.container}>
-          <Box className={styles.box}>
-            <Typography variant="h6">Confirmacion</Typography>
-            <Divider sx={{ my: 2 }} />
-            <Typography>¿Estas segro que deseas enviar el mensaje?</Typography>
-          </Box>
-
-          <Box className={styles.input}>
-            <TextField
-              id="outlined-basic"
-              label="Mensaje"
-              variant="outlined"
-              value={message}
-              onChange={handleMessageChange}
-              error={!!error}
-              helperText={error}
-            />
-          </Box>
-
-          <Box className={styles.buttonContainer}>
-            <Button onClick={handleModalClose} variant="contained" color="error">
-              Cancelar
-            </Button>
-            <Button
-              onClick={() => handleSendMessage(handleModalClose)}
-              variant="contained"
-              color="info"
-            >
-              Enviar
-            </Button>
-          </Box>
-        </Box>
-      </Paper>
-    </Modal>
+    <Dialog open={open} onClose={handleModalClose} maxWidth="sm" fullWidth>
+      <DialogTitle>
+        <div className={styles.header}>
+          <div>Confirmacion de Envio</div>
+          <IconButton onClick={handleModalClose} size="small">
+            <CloseIcon />
+          </IconButton>
+        </div>
+      </DialogTitle>
+      <DialogContent>
+        <Input
+          marginTop
+          label="Mensaje"
+          value={message}
+          size="medium"
+          onChange={handleMessageChange}
+        />
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleModalClose} variant="contained" color="secondary">
+          Cancelar
+        </Button>
+        <Button
+          onClick={() => handleSendMessage(handleModalClose)}
+          variant="contained"
+          color="primary"
+        >
+          Enviar
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 };
 

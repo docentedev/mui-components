@@ -1,22 +1,31 @@
-import { Button, Card, CardContent, CardHeader, Divider, Stack, Typography } from '@mui/material';
+import { Button, Card, CardContent, CardHeader, Divider, Grid2, Stack, Typography } from '@mui/material';
 import { MaterialType } from '../../components/material-type';
 import Table from '../../components/table';
 import { Material } from '../../components/material-type/types';
-import ModalInputIndex from '../../components/modal-input';
-import { useState } from 'react';
+import Input from '../../components/input';
+import React, { useState } from 'react';
+import MonthRangePicker from '../../components/month-range-picker';
+import Dropdown from '../../components/dropdown';
+import ButtonClear from '../../components/button-clear';
 
 interface MaterialTypeIndexProps {
     title: string;
 }
 
-
-
 const MaterialTypeIndex: React.FC<MaterialTypeIndexProps> = ({ title }) => {
-    const [openModal, setOpenModal] = useState(false);
+    const [name, setName] = useState<{ label: string, value: string }>();
+    const [value, setValue] = useState('');
+    const [dateRange, setDateRange] = useState<[Date, Date]>([new Date(), new Date()]); // Enero 2021 a Diciembre 2021
 
-    const handleOpenModal = () => setOpenModal(true);
-    const handleCloseModal = () => setOpenModal(false);
+    const handleDateChange = (newDateRange: [Date, Date]) => {
+        setDateRange(newDateRange);
+    };
 
+    const handleClearFilters = () => {
+        setValue('');
+        setName(undefined);
+        setDateRange([new Date(), new Date()]);
+    };
     return (
         <>
             <Typography
@@ -24,10 +33,71 @@ const MaterialTypeIndex: React.FC<MaterialTypeIndexProps> = ({ title }) => {
                 component="h1"
                 gutterBottom
             >{title}</Typography>
+            <Divider sx={{ my: 2 }} />
+            <Stack spacing={2} direction="row">
+                <Input
+                    label="Nombre"
+                    value={value}
+                    type="search"
+                    onChange={(event) => setValue(event.target.value)}
+                    placeholder="Buscar"
+                />
+                <Dropdown
+                    label="Nombre"
+                    value={name}
+                    onChange={setName}
+                    options={[
+                        { label: 'Opción 1', value: '1' },
+                        { label: 'Opción 2', value: '2' },
+                    ]}
+                />
+                <MonthRangePicker
+                    value={dateRange}
+                    onChange={handleDateChange}
+                />
+                <ButtonClear
+                    label="Limpiar filtros"
+                    onClick={handleClearFilters}
+                />
+            </Stack>
+            <Divider sx={{ my: 2 }} />
             <Card>
                 <CardHeader title={
                     <MaterialType material="Gold" size="medium" label="PR Numero 98749849" />
                 } action={<Button variant="contained">Botón</Button>} />
+                <CardContent>
+                    <Grid2 container spacing={2}>
+                        <Grid2 size={4}>
+                            <MonthRangePicker
+                                value={dateRange}
+                                onChange={handleDateChange}
+                            />
+                        </Grid2>
+                        <Grid2 size={2}>
+                            <Input
+                                label="Nombre"
+                                value={value}
+                                type="search"
+                                onChange={(event) => setValue(event.target.value)}
+                                placeholder="Buscar"
+                            />
+                        </Grid2>
+                        <Grid2 size={2}>
+                            <Input
+                                label="Nombre"
+                                value={value}
+                                onChange={(event) => setValue(event.target.value)}
+                                placeholder="Buscar"
+                            />
+                        </Grid2>
+                        <Grid2 size={4}>
+                            <MonthRangePicker
+                                value={dateRange}
+                                onChange={handleDateChange}
+                            />
+                        </Grid2>
+                    </Grid2>
+                </CardContent>
                 <CardContent>
                     <Stack spacing={2}>
                         <Table
@@ -41,8 +111,8 @@ const MaterialTypeIndex: React.FC<MaterialTypeIndexProps> = ({ title }) => {
                                             <Button variant="contained" color="secondary">
                                                 secundario
                                             </Button>
-                                            <Button variant="contained" color="primary" onClick={handleOpenModal}>
-                                                Nuevo Mensaje
+                                            <Button variant="contained" color="primary">
+                                                primario
                                             </Button>
                                         </Stack>
                                     )
@@ -59,12 +129,6 @@ const MaterialTypeIndex: React.FC<MaterialTypeIndexProps> = ({ title }) => {
                 </CardContent>
             </Card>
             <Divider sx={{ my: 2 }} />
-
-            <ModalInputIndex
-                open={openModal}
-                onClose={handleCloseModal}
-            />
-            
         </>
     );
 }

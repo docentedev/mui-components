@@ -1,0 +1,92 @@
+:root {
+    --variant-containedBg: #a69259;
+}
+
+.container {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+.toggleButton {
+    width: 100%;
+    cursor: pointer;
+}
+
+.dropdown {
+    position: absolute;
+    z-index: 1000;
+    background-color: #fff;
+    border: 0.5px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.active {
+    border-color: var(--variant-containedBg);
+    background-color: var(--variant-containedBg);
+    color: #fff;
+}
+
+.navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.arrowIcon {
+    cursor: pointer;
+    font-size: 24px;
+    transition: color 0.3s;
+}
+
+.arrowIcon:hover {
+    color: var(--variant-containedBg);
+}
+
+.datePicker {
+    display: flex;
+    flex-direction: column;
+}
+
+.label {
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #a69259;
+}
+
+.gridContainer {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.gridItem {
+    width: 65px;
+    padding: 8px 0.85rem;
+    font-size: 16px;
+    border: 0 none #ffffff00;
+    background-color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s;
+    border-radius: 4px;
+}
+
+.gridItem:hover {
+    color: var(--variant-containedBg);
+    border: 0 none #ffffff00;
+    background-color: #f0f0f0;
+}
+
+.selected {
+    border-color: var(--variant-containedBg);
+    background-color: var(--variant-containedBg);
+    color: #fff;
+}
+
+.gridItem[data-range='in-range']:not(.selected) {
+    color: var(--variant-containedBg);
+}

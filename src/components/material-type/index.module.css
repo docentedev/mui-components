@@ -33,13 +33,13 @@
 }
 
 .materialType[data-size='medium'] .icon {
-    width: 2.5rem;
-    height: 2.5rem;
-    min-width: 2.5rem;
-    min-height: 2.5rem;
-    font-size: 1rem;
+    width: 2.25rem;
+    height: 2.25rem;
+    min-width: 2.25rem;
+    min-height: 2.25rem;
+    font-size: 1.1rem;
 }
 
 .materialType[data-size='medium'] .label {
-    font-size: 1rem;
+    font-size: 1.1rem;
 }
