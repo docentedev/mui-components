@@ -11,9 +11,24 @@ interface InputProps {
     type?: 'text' | 'number' | 'password' | 'email' | 'search';
     id?: string;
     placeholder?: string;
+    required?: boolean;
+    size?: 'small' | 'medium';
+    marginTop?: boolean;
 }
 
-const Input: React.FC<InputProps> = ({ id: externalId, label, value, onChange, icon, iconPosition = 'start', type = 'text', placeholder }) => {
+const Input: React.FC<InputProps> = ({
+    id: externalId,
+    required,
+    label,
+    value,
+    onChange,
+    placeholder,
+    marginTop,
+    icon,
+    iconPosition = 'start',
+    type = 'text',
+    size = 'small',
+}) => {
     const id = useId();
     const startAdornment = type === 'search' ? (
         <InputAdornment position="start">
@@ -34,10 +49,10 @@ const Input: React.FC<InputProps> = ({ id: externalId, label, value, onChange, i
     ) : null;
 
     return (
-        <FormControl fullWidth size='small' variant='outlined'>
+        <FormControl fullWidth size={size} variant='outlined' sx={{ mt: marginTop ? 1 : 0 }}>
             <InputLabel
                 htmlFor={externalId || id}
-                required
+                required={required}
             >{label}</InputLabel>
             <OutlinedInput
                 id={externalId || id}
