@@ -21,7 +21,7 @@ const initialStateI18n: I18N = {
   title: 'Modal input',
   label: 'Label',
   success : 'Success',
-  cancel: 'cancel',
+  cancel: 'Cancel',
 };
 
 interface ModalInputIndexProps {
@@ -41,7 +41,7 @@ const ModalInput: React.FC<ModalInputIndexProps> = ({
   onSuccess,
   i18n,
 }) => {
-  const lang = { ...initialStateI18n, ...i18n };
+  const lang = i18n ? { ...initialStateI18n, ...i18n } : initialStateI18n;
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
