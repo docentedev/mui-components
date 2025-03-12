@@ -3,10 +3,10 @@ import { describe, expect, test, vi } from 'vitest';
 import ModalInputIndex from './index';
 
 const mockI18n = {
-  title: 'Envío de documentación',
-  label: 'Mensaje',
-  succeesLabel: 'Enviar',
-  cancelLabel: 'Cancelar'
+  title: 'Modal input',
+  label: 'Label',
+  success : 'Success',
+  cancel: 'cancel',
 };
 
 describe('ModalInputIndex', () => {
@@ -22,8 +22,8 @@ describe('ModalInputIndex', () => {
       />
     );
 
-    expect(screen.getByText('Cancelar')).toBeInTheDocument();
-    expect(screen.getByText('Enviar')).toBeInTheDocument();
+    expect(screen.getByText('cancel')).toBeInTheDocument();
+    expect(screen.getByText('Success')).toBeInTheDocument();
   });
 
   test('should close on cancel click', () => {
@@ -40,7 +40,7 @@ describe('ModalInputIndex', () => {
       />
     );
 
-    const cancelButton = screen.getByText('Cancelar');
+    const cancelButton = screen.getByText('cancel');
     fireEvent.click(cancelButton);
 
     expect(onCloseMock).toHaveBeenCalled();

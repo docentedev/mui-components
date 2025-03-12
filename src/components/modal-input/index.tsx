@@ -13,15 +13,15 @@ import Input from '../input';
 interface I18N {
   title: string;
   label: string;
-  succeesLabel: string;
-  cancelLabel: string;
+  success: string;
+  cancel: string;
 }
 
 const initialStateI18n: I18N = {
-  title: 'Envio de documentacion',
-  label: 'Mensaje',
-  succeesLabel: 'Aceptar',
-  cancelLabel: 'Cerrar',
+  title: 'Modal input',
+  label: 'Label',
+  success : 'Success',
+  cancel: 'cancel',
 };
 
 interface ModalInputIndexProps {
@@ -64,10 +64,10 @@ const ModalInput: React.FC<ModalInputIndexProps> = ({
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose} variant="contained" color="secondary">
-          {lang.cancelLabel}
+          {lang.cancel}
         </Button>
         <Button onClick={onSuccess} variant="contained" color="primary">
-          {lang.succeesLabel}
+          {lang.success}
         </Button>
       </DialogActions>
     </Dialog>
