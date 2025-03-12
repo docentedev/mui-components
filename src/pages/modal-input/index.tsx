@@ -7,7 +7,7 @@ interface ModalInputIndexProps {
 }
 
 const ModalInputIndex: React.FC<ModalInputIndexProps> = ({ title }) => {
-  const [openModal, setOpenModal] = useState(false);
+  const [open, setOpen] = useState(false);
   const [value, setValue] = useState('');
   const [message, setMessage] = useState('');
 
@@ -15,16 +15,16 @@ const ModalInputIndex: React.FC<ModalInputIndexProps> = ({ title }) => {
     setValue(event.target.value);
   };
 
-  const handleOpenModal = () => setOpenModal(true);
-  const handleCloseModal = () => {
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => {
     setValue('');
-    setOpenModal(false);
+    setOpen(false);
   };
 
   const handleSucceed = () => {
     setMessage(value);
     setValue('');
-    handleCloseModal();
+    handleClose();
   };
 
   return (
@@ -32,19 +32,15 @@ const ModalInputIndex: React.FC<ModalInputIndexProps> = ({ title }) => {
       <Typography variant="h5" component="h1" gutterBottom>
         {title}
       </Typography>
-      <Button variant="contained" color="primary" onClick={handleOpenModal}>
+      <Button variant="contained" color="primary" onClick={handleOpen}>
         Nuevo Mensaje
       </Button>
       <ModalInput
-        open={openModal}
-        onClose={handleCloseModal}
-        title="Envio de documentacion"
-        label="Mensaje"
+        open={open}
+        onClose={handleClose}
         value={value}
         onChange={handleChange}
-        onSucceed={handleSucceed}
-        cancelLabel="Cancelar"
-        succeedLabel="Enviar"
+        onSuccess={handleSucceed}
       />
 
       <Typography>

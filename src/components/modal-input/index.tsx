@@ -10,40 +10,45 @@ import CloseIcon from '@mui/icons-material/Close';
 import styles from './index.module.css';
 import Input from '../input';
 
-interface ModalInputIndexProps {
-  open: boolean;
+interface I18N {
   title: string;
   label: string;
-  succeedLabel: string;
+  succeesLabel: string;
   cancelLabel: string;
+}
+
+const initialStateI18n: I18N = {
+  title: 'Envio de documentacion',
+  label: 'Mensaje',
+  succeesLabel: 'Aceptar',
+  cancelLabel: 'Cerrar',
+};
+
+interface ModalInputIndexProps {
+  open: boolean;
   value: string;
   onClose: () => void;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onSucceed: () => void;
+  onSuccess: () => void;
+  i18n?: Partial<I18N>;
 }
 
-const ModalInputIndex: React.FC<ModalInputIndexProps> = ({
+const ModalInput: React.FC<ModalInputIndexProps> = ({
   open,
-  title,
-  label,
-  succeedLabel,
-  cancelLabel, 
   value,
   onClose,
   onChange,
-  onSucceed
+  onSuccess,
+  i18n,
 }) => {
-
-  const handleModalClose = () => {
-    onClose();
-  };
+  const lang = { ...initialStateI18n, ...i18n };
 
   return (
-    <Dialog open={open} onClose={handleModalClose} maxWidth="sm" fullWidth>
+    <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
       <DialogTitle>
         <div className={styles.header}>
-          <div>{title}</div>
-          <IconButton onClick={handleModalClose} size="small">
+          <div>{lang.title}</div>
+          <IconButton onClick={onClose} size="small">
             <CloseIcon />
           </IconButton>
         </div>
@@ -51,30 +56,22 @@ const ModalInputIndex: React.FC<ModalInputIndexProps> = ({
       <DialogContent>
         <Input
           marginTop
-          label={label}
+          label={lang.label}
           value={value}
           size="medium"
           onChange={onChange}
         />
       </DialogContent>
       <DialogActions>
-        <Button
-          onClick={handleModalClose}
-          variant="contained"
-          color="secondary"
-        >
-          {cancelLabel}
+        <Button onClick={onClose} variant="contained" color="secondary">
+          {lang.cancelLabel}
         </Button>
-        <Button
-          onClick={onSucceed}
-          variant="contained"
-          color="primary"
-        >
-          {succeedLabel}
+        <Button onClick={onSuccess} variant="contained" color="primary">
+          {lang.succeesLabel}
         </Button>
       </DialogActions>
     </Dialog>
   );
 };
 
-export default ModalInputIndex;
+export default ModalInput;
