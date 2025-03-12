@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import ReactDOM from 'react-dom';
 import dayjs from 'dayjs';
 import styles from './index.module.css';
@@ -6,12 +6,38 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import RestoreIcon from '@mui/icons-material/Restore';
 import DateRangeIcon from '@mui/icons-material/DateRange';
-import { Button } from '@mui/material';
+import { Button, IconButton, Stack, Tooltip } from '@mui/material';
 
-const months = [
-    'Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
-    'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'
-];
+interface I18N {
+    month: string;
+    year: string;
+    previous: string;
+    next: string;
+    close: string;
+    toCurrent: string;
+    months: string[];
+    startMonth: string;
+    endMonth: string;
+    startYear: string;
+    endYear: string;
+}
+
+const initialStateI18n = {
+    startMonth: 'Inicio del mes',
+    endMonth: 'Fin del mes',
+    startYear: 'Inicio del año',
+    endYear: 'Fin del año',
+    month: 'Mes',
+    year: 'Año',
+    previous: 'Anterior',
+    next: 'Siguiente',
+    close: 'Cerrar',
+    toCurrent: 'Hasta la fecha actual',
+    months: [
+        'Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
+        'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'
+    ],
+};
 
 const getYears = (startYear: number, endYear: number) => {
     const years = [];
@@ -19,22 +45,22 @@ const getYears = (startYear: number, endYear: number) => {
         years.push(year);
     }
     return years;
-};
-
+}
 interface MonthRangePickerProps {
     value: [Date, Date];
     onChange: (value: [Date, Date]) => void;
+    i18n?: Partial<I18N>;
 }
 
-const MonthRangePicker: React.FC<MonthRangePickerProps> = ({ value, onChange }) => {
+const MonthRangePicker: React.FC<MonthRangePickerProps> = ({ value, onChange, i18n }) => {
+    const lang = i18n ? { ...initialStateI18n, ...i18n } : initialStateI18n;
     const [twoMonthClick, setTwoMonthClick] = useState([false, false]);
     const currentYear = dayjs().year();
     const currentMonth = dayjs().month();
     const [yearRange, setYearRange] = useState({ start: currentYear - 5, end: currentYear + 6 });
     const years = getYears(yearRange.start, yearRange.end);
 
-    const [startMode, setStartMode] = useState<'year' | 'month'>('year');
-    const [endMode, setEndMode] = useState<'year' | 'month'>('year');
+    const [mode, setMode] = useState<'year' | 'month'>('year');
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
     const buttonRef = useRef<HTMLButtonElement>(null);
@@ -49,9 +75,16 @@ const MonthRangePicker: React.FC<MonthRangePickerProps> = ({ value, onChange }) 
 
     const handleStartMonthChange = (month: number) => {
         const newStartDate = new Date(startDate.getFullYear(), month);
+        // fix start no puede ser mayor que end, si es asi se cambiar start a maximum end
+        if (newStartDate.getTime() > endDate.getTime()) {
+            newStartDate.setFullYear(endDate.getFullYear());
+            newStartDate.setMonth(endDate.getMonth());
+        }
+
         setStartDate(newStartDate);
         onChange([newStartDate, endDate]);
         setTwoMonthClick([true, twoMonthClick[1]]);
+        setMode('year');
         if (twoMonthClick[1]) {
             closeDropdown();
         }
@@ -59,16 +92,26 @@ const MonthRangePicker: React.FC<MonthRangePickerProps> = ({ value, onChange }) 
 
     const handleStartYearChange = (year: number) => {
         const newStartDate = new Date(year, startDate.getMonth());
+        if (newStartDate.getTime() > endDate.getTime()) {
+            newStartDate.setFullYear(endDate.getFullYear());
+            newStartDate.setMonth(endDate.getMonth());
+        }
         setStartDate(newStartDate);
         onChange([newStartDate, endDate]);
-        setStartMode('month');
+        setMode('month');
     };
 
     const handleEndMonthChange = (month: number) => {
         const newEndDate = new Date(endDate.getFullYear(), month);
+        // fix end no puede ser menor que start, si es asi se cambiar end a minimum start
+        if (newEndDate.getTime() < startDate.getTime()) {
+            newEndDate.setFullYear(startDate.getFullYear());
+            newEndDate.setMonth(startDate.getMonth());
+        }
         setEndDate(newEndDate);
         onChange([startDate, newEndDate]);
         setTwoMonthClick([twoMonthClick[0], true]);
+        setMode('year');
         if (twoMonthClick[0]) {
             closeDropdown();
         }
@@ -76,18 +119,22 @@ const MonthRangePicker: React.FC<MonthRangePickerProps> = ({ value, onChange }) 
 
     const handleEndYearChange = (year: number) => {
         const newEndDate = new Date(year, endDate.getMonth());
+        if (newEndDate.getTime() < startDate.getTime()) {
+            newEndDate.setFullYear(startDate.getFullYear());
+            newEndDate.setMonth(startDate.getMonth());
+        }
         setEndDate(newEndDate);
         onChange([startDate, newEndDate]);
-        setEndMode('month');
+        setMode('month');
     };
 
-    const isStartDateValid = (year: number, month: number) => {
-        return year < endDate.getFullYear() || (year === endDate.getFullYear() && month <= endDate.getMonth());
-    };
+    const isStartDateValid = useCallback((year: number, month: number) => {
+        return year <= endDate.getFullYear() || (year === endDate.getFullYear() && month <= endDate.getMonth());
+    }, [endDate]);
 
-    const isEndDateValid = (year: number, month: number) => {
-        return year > startDate.getFullYear() || (year === startDate.getFullYear() && month >= startDate.getMonth());
-    };
+    const isEndDateValid = useCallback((year: number, month: number) => {
+        return year >= startDate.getFullYear() || (year === startDate.getFullYear() && month >= startDate.getMonth());
+    }, [startDate]);
 
     const toggleDropdown = () => {
         setIsDropdownOpen(!isDropdownOpen);
@@ -96,15 +143,31 @@ const MonthRangePicker: React.FC<MonthRangePickerProps> = ({ value, onChange }) 
         }
     };
 
-    const closeDropdown = () => {
-        setIsDropdownOpen(false);
-    };
+    const handleReset = useCallback(() => {
+        const newStartDate = new Date(currentYear, currentMonth);
+        const newEndDate = new Date(currentYear, currentMonth);
+        setStartDate(newStartDate);
+        setEndDate(newEndDate);
+        onChange([newStartDate, newEndDate]);
+        setYearRange({ start: currentYear - 5, end: currentYear + 6 });
+        setTwoMonthClick([false, false]);
+    }, [currentYear, currentMonth, onChange]);
 
-    const handleClickOutside = (event: MouseEvent) => {
+    const closeDropdown = useCallback(() => {
+        setIsDropdownOpen(false);
+        setTwoMonthClick([false, false]);
+        setMode('year');
+        // si alguna de las fechas es invalid se resetea
+        if (!isStartDateValid(startDate.getFullYear(), startDate.getMonth()) || !isEndDateValid(endDate.getFullYear(), endDate.getMonth())) {
+            handleReset();
+        }
+    }, [isStartDateValid, startDate, isEndDateValid, endDate, handleReset]);
+
+    const handleClickOutside = useCallback((event: MouseEvent) => {
         if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
             closeDropdown();
         }
-    };
+    }, [closeDropdown]);
 
     useEffect(() => {
         if (isDropdownOpen) {
@@ -122,7 +185,7 @@ const MonthRangePicker: React.FC<MonthRangePickerProps> = ({ value, onChange }) 
             window.removeEventListener('resize', closeDropdown);
             document.removeEventListener('mousedown', handleClickOutside);
         };
-    }, [isDropdownOpen]);
+    }, [isDropdownOpen, closeDropdown, handleClickOutside]);
 
     // calcular si sera left o right dependiendo del espacio disponible
     const getStyles = () => {
@@ -141,59 +204,41 @@ const MonthRangePicker: React.FC<MonthRangePickerProps> = ({ value, onChange }) 
         };
     };
 
-    const handlePrevious = (mode: 'start' | 'end') => {
-        if (mode === 'start') {
-            if (startMode === 'month') {
-                handleStartYearChange(startDate.getFullYear() - 1);
-            } else {
-                setYearRange({ start: yearRange.start - 10, end: yearRange.end - 10 });
-            }
-        } else {
-            if (endMode === 'month') {
-                handleEndYearChange(endDate.getFullYear() - 1);
-            } else {
-                setYearRange({ start: yearRange.start - 10, end: yearRange.end - 10 });
-            }
-        }
+    const handlePrevious = () => {
+        // solo cambiar el rango que se muestra, modo mes se mueve 1 año, modo año se mueve 10 años
+        setYearRange({ start: yearRange.start - 5, end: yearRange.end - 5 });
     };
 
-    const handleNext = (mode: 'start' | 'end') => {
-        if (mode === 'start') {
-            if (startMode === 'month') {
-                handleStartYearChange(startDate.getFullYear() + 1);
-            } else {
-                setYearRange({ start: yearRange.start + 10, end: yearRange.end + 10 });
-            }
-        } else {
-            if (endMode === 'month') {
-                handleEndYearChange(endDate.getFullYear() + 1);
-            } else {
-                setYearRange({ start: yearRange.start + 10, end: yearRange.end + 10 });
-            }
-        }
-    };
-
-    const handleReset = () => {
-        const newStartDate = new Date(currentYear, currentMonth);
-        const newEndDate = new Date(currentYear, currentMonth);
-        setStartDate(newStartDate);
-        setEndDate(newEndDate);
-        onChange([newStartDate, newEndDate]);
-        setYearRange({ start: currentYear - 10, end: currentYear + 10 });
-        setTwoMonthClick([false, false]);
+    const handleNext = () => {
+        setYearRange({ start: yearRange.start + 5, end: yearRange.end + 5 });
     };
 
     const getHeader = () => {
         if (twoMonthClick[0] && twoMonthClick[1]) {
-            return `${months[startDate.getMonth()]} ${startDate.getFullYear()} - ${months[endDate.getMonth()]} ${endDate.getFullYear()}`;
+            return `${lang.months[startDate.getMonth()]} ${startDate.getFullYear()} - ${lang.months[endDate.getMonth()]} ${endDate.getFullYear()}`;
         } else if (twoMonthClick[0]) {
-            return `${months[startDate.getMonth()]} ${startDate.getFullYear()} -`;
+            return `${lang.months[startDate.getMonth()]} ${startDate.getFullYear()} -`;
         } else if (twoMonthClick[1]) {
-            return `- ${months[endDate.getMonth()]} ${endDate.getFullYear()}`;
+            return `- ${lang.months[endDate.getMonth()]} ${endDate.getFullYear()}`;
         } else if (value[0].getTime() === value[1].getTime()) {
-            return `${months[value[0].getMonth()]} ${value[0].getFullYear()} - ${months[value[1].getMonth()]} ${value[1].getFullYear()}`;
+            return `${lang.months[value[0].getMonth()]} ${value[0].getFullYear()} - ${lang.months[value[1].getMonth()]} ${value[1].getFullYear()}`;
         }
-        return `${months[value[0].getMonth()]} ${value[0].getFullYear()} - ${months[value[1].getMonth()]} ${value[1].getFullYear()}`;
+        return `${lang.months[value[0].getMonth()]} ${value[0].getFullYear()} - ${lang.months[value[1].getMonth()]} ${value[1].getFullYear()}`;
+    };
+
+    const isYearInRange = (year: number) => year >= startDate.getFullYear() && year <= endDate.getFullYear();
+
+    const isMonthInRange = (year: number, month: number) => {
+        if (year === startDate.getFullYear() && year === endDate.getFullYear()) {
+            return month >= startDate.getMonth() && month <= endDate.getMonth();
+        }
+        if (year === startDate.getFullYear()) {
+            return month >= startDate.getMonth();
+        }
+        if (year === endDate.getFullYear()) {
+            return month <= endDate.getMonth();
+        }
+        return true;
     };
 
     return (
@@ -209,111 +254,113 @@ const MonthRangePicker: React.FC<MonthRangePickerProps> = ({ value, onChange }) 
             </Button>
             {isDropdownOpen && ReactDOM.createPortal(
                 <div className={styles.dropdown} ref={dropdownRef} style={getStyles()}>
-                    <div className={styles.modeToggle}>
-                        <button
-                            className={`${styles.modeButton} ${startMode === 'month' ? styles.active : ''}`}
-                            onClick={() => setStartMode('month')}
-                        >
-                            Mes Inicio
-                        </button>
-                        <button
-                            className={`${styles.modeButton} ${startMode === 'year' ? styles.active : ''}`}
-                            onClick={() => setStartMode('year')}
-                        >
-                            Año Inicio
-                        </button>
-                        <button
-                            className={`${styles.modeButton} ${endMode === 'month' ? styles.active : ''}`}
-                            onClick={() => setEndMode('month')}
-                        >
-                            Mes Fin
-                        </button>
-                        <button
-                            className={`${styles.modeButton} ${endMode === 'year' ? styles.active : ''}`}
-                            onClick={() => setEndMode('year')}
-                        >
-                            Año Fin
-                        </button>
-                    </div>
+                    <Stack direction="row" spacing={1} justifyContent="space-between" alignItems="center">
+                        <Stack direction="row" spacing={1}>
+                            <Button
+                                variant={mode === 'month' ? 'contained' : 'outlined'}
+                                onClick={() => setMode('month')}
+                                size="small">
+                                {lang.month}
+                            </Button>
+                            <Button
+                                variant={mode === 'year' ? 'contained' : 'outlined'}
+                                onClick={() => setMode('year')}
+                                size="small">
+                                {lang.year}
+                            </Button>
+                        </Stack>
+                        <Stack direction="row">
+                            <Tooltip title={lang.previous}>
+                                <IconButton onClick={handlePrevious} size="small" disabled={mode === 'month'}>
+                                    <ArrowBackIcon />
+                                </IconButton>
+                            </Tooltip>
+                            <Tooltip title={lang.toCurrent}>
+                                <IconButton onClick={handleReset} size="small">
+                                    <RestoreIcon />
+                                </IconButton>
+                            </Tooltip>
+                            <Tooltip title={lang.next}>
+                                <IconButton onClick={handleNext} size="small" disabled={mode === 'month'}>
+                                    <ArrowForwardIcon />
+                                </IconButton>
+                            </Tooltip>
+                        </Stack>
+                    </Stack>
                     <div className={styles.navigation}>
-                        <ArrowBackIcon onClick={() => handlePrevious('start')} className={styles.arrowIcon} />
-                        <RestoreIcon onClick={handleReset} className={styles.arrowIcon} />
-                        <ArrowForwardIcon onClick={() => handleNext('start')} className={styles.arrowIcon} />
-                    </div>
-                    <div className={styles.navigation}>
-                        {startMode === 'month' ? (
-                            <>
-                                <div className={styles.datePicker}>
-                                    <label className={styles.label}>Inicio del mes</label>
-                                    <div className={styles.gridContainer}>
-                                        {months.map((month, index) => (
-                                            <button
-                                                key={index}
-                                                className={`${styles.gridItem} ${startDate.getMonth() === index ? styles.selected : ''}`}
-                                                onClick={() => handleStartMonthChange(index)}
-                                                disabled={!isStartDateValid(startDate.getFullYear(), index)}
-                                            >
-                                                {month}
-                                            </button>
-                                        ))}
-                                    </div>
+                        {mode === 'month' ? (
+                            <div className={styles.datePicker}>
+                                <label className={styles.label}>
+                                    {lang.startMonth}
+                                </label>
+                                <div className={styles.gridContainer}>
+                                    {lang.months.map((month, index) => (
+                                        <button
+                                            key={index}
+                                            className={`${styles.gridItem} ${startDate.getMonth() === index ? styles.selected : ''}`}
+                                            onClick={() => handleStartMonthChange(index)}
+                                            data-range={isMonthInRange(startDate.getFullYear(), index) ? 'in-range' : ''}
+                                        >
+                                            {month}
+                                        </button>
+                                    ))}
                                 </div>
-                            </>
+                            </div>
                         ) : (
-                            <>
-                                <div className={styles.datePicker}>
-                                    <label className={styles.label}>Inicio del año</label>
-                                    <div className={styles.gridContainer}>
-                                        {years.map((year) => (
-                                            <button
-                                                key={year}
-                                                className={`${styles.gridItem} ${startDate.getFullYear() === year ? styles.selected : ''}`}
-                                                onClick={() => handleStartYearChange(year)}
-                                                disabled={!isStartDateValid(year, startDate.getMonth())}
-                                            >
-                                                {year}
-                                            </button>
-                                        ))}
-                                    </div>
+                            <div className={styles.datePicker}>
+                                <label className={styles.label}>
+                                    {lang.startYear}
+                                </label>
+                                <div className={styles.gridContainer}>
+                                    {years.map((year) => (
+                                        <button
+                                            key={year}
+                                            className={`${styles.gridItem} ${startDate.getFullYear() === year ? styles.selected : ''}`}
+                                            onClick={() => handleStartYearChange(year)}
+                                            data-range={isYearInRange(year) ? 'in-range' : ''}
+                                        >
+                                            {year}
+                                        </button>
+                                    ))}
                                 </div>
-                            </>
+                            </div>
                         )}
-                        {endMode === 'month' ? (
-                            <>
-                                <div className={styles.datePicker}>
-                                    <label className={styles.label}>Fin del mes</label>
-                                    <div className={styles.gridContainer}>
-                                        {months.map((month, index) => (
-                                            <button
-                                                key={index}
-                                                className={`${styles.gridItem} ${endDate.getMonth() === index ? styles.selected : ''}`}
-                                                onClick={() => handleEndMonthChange(index)}
-                                                disabled={!isEndDateValid(endDate.getFullYear(), index)}
-                                            >
-                                                {month}
-                                            </button>
-                                        ))}
-                                    </div>
+                        {mode === 'month' ? (
+                            <div className={styles.datePicker}>
+                                <label className={styles.label}>
+                                    {lang.endMonth}
+                                </label>
+                                <div className={styles.gridContainer}>
+                                    {lang.months.map((month, index) => (
+                                        <button
+                                            key={index}
+                                            className={`${styles.gridItem} ${endDate.getMonth() === index ? styles.selected : ''}`}
+                                            onClick={() => handleEndMonthChange(index)}
+                                            data-range={isMonthInRange(endDate.getFullYear(), index) ? 'in-range' : ''}
+                                        >
+                                            {month}
+                                        </button>
+                                    ))}
                                 </div>
-                            </>
+                            </div>
                         ) : (
-                            <>
-                                <div className={styles.datePicker}>
-                                    <label className={styles.label}>Fin del año</label>
-                                    <div className={styles.gridContainer}>
-                                        {years.map((year) => (
-                                            <button
-                                                key={year}
-                                                className={`${styles.gridItem} ${endDate.getFullYear() === year ? styles.selected : ''}`}
-                                                onClick={() => handleEndYearChange(year)}
-                                                disabled={!isEndDateValid(year, endDate.getMonth())}
-                                            >
-                                                {year}
-                                            </button>
-                                        ))}
-                                    </div>
+                            <div className={styles.datePicker}>
+                                <label className={styles.label}>
+                                    {lang.endYear}
+                                </label>
+                                <div className={styles.gridContainer}>
+                                    {years.map((year) => (
+                                        <button
+                                            key={year}
+                                            className={`${styles.gridItem} ${endDate.getFullYear() === year ? styles.selected : ''}`}
+                                            onClick={() => handleEndYearChange(year)}
+                                            data-range={isYearInRange(year) ? 'in-range' : ''}
+                                        >
+                                            {year}
+                                        </button>
+                                    ))}
                                 </div>
-                            </>
+                            </div>
                         )}
                     </div>
                 </div>,

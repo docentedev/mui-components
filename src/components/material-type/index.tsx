@@ -20,7 +20,7 @@ export const MaterialType: React.FC<MaterialTypeProps> = ({ size, material, labe
             >
                 {getAbbr(material)}
             </i>
-            {label && <span role="span">{label}</span>}
+            {label && <span className={styles.label} role="span">{label}</span>}
         </div>
     );
 };

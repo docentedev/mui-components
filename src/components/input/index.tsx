@@ -10,9 +10,10 @@ interface InputProps {
     iconPosition?: 'start' | 'end';
     type?: 'text' | 'number' | 'password' | 'email' | 'search';
     id?: string;
+    placeholder?: string;
 }
 
-const Input: React.FC<InputProps> = ({ id: externalId, label, value, onChange, icon, iconPosition = 'start', type = 'text' }) => {
+const Input: React.FC<InputProps> = ({ id: externalId, label, value, onChange, icon, iconPosition = 'start', type = 'text', placeholder }) => {
     const id = useId();
     const startAdornment = type === 'search' ? (
         <InputAdornment position="start">
@@ -46,6 +47,7 @@ const Input: React.FC<InputProps> = ({ id: externalId, label, value, onChange, i
                 onChange={onChange}
                 startAdornment={startAdornment}
                 endAdornment={endAdornment}
+                placeholder={placeholder}
             />
         </FormControl>
     );

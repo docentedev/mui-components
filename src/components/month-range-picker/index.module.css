@@ -26,33 +26,9 @@
     gap: 16px;
 }
 
-.modeToggle {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-    margin-bottom: 16px;
-}
-
-.modeButton {
-    padding: 8px 16px;
-    font-size: 14px;
-    border: 0.5px solid #ccc;
-    border-radius: 4px;
-    background-color: #fff;
-    cursor: pointer;
-    transition: background-color 0.3s, border-color 0.3s;
-}
-
-.modeButton:hover {
-    color: #fff;
-    background-color: #8d7840;
-}
-
 .active {
     border-color: var(--variant-containedBg);
-    ;
     background-color: var(--variant-containedBg);
-    ;
     color: #fff;
 }
 
@@ -89,25 +65,28 @@
 }
 
 .gridItem {
+    width: 65px;
     padding: 8px 0.85rem;
     font-size: 16px;
-    border: 1px solid #ccc;
+    border: 0 none #ffffff00;
     background-color: #fff;
     cursor: pointer;
     transition: background-color 0.3s, border-color 0.3s;
+    border-radius: 4px;
 }
 
 .gridItem:hover {
+    color: var(--variant-containedBg);
+    border: 0 none #ffffff00;
     background-color: #f0f0f0;
-}
-
-.gridItem:disabled {
-    background-color: #e0e0e0;
-    cursor: not-allowed;
 }
 
 .selected {
     border-color: var(--variant-containedBg);
     background-color: var(--variant-containedBg);
     color: #fff;
+}
+
+.gridItem[data-range='in-range']:not(.selected) {
+    color: var(--variant-containedBg);
 }

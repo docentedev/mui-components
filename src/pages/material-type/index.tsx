@@ -5,17 +5,26 @@ import { Material } from '../../components/material-type/types';
 import Input from '../../components/input';
 import React, { useState } from 'react';
 import MonthRangePicker from '../../components/month-range-picker';
+import Dropdown from '../../components/dropdown';
+import ButtonClear from '../../components/button-clear';
 
 interface MaterialTypeIndexProps {
     title: string;
 }
 
 const MaterialTypeIndex: React.FC<MaterialTypeIndexProps> = ({ title }) => {
+    const [name, setName] = useState<{ label: string, value: string }>();
     const [value, setValue] = useState('');
     const [dateRange, setDateRange] = useState<[Date, Date]>([new Date(), new Date()]); // Enero 2021 a Diciembre 2021
 
     const handleDateChange = (newDateRange: [Date, Date]) => {
         setDateRange(newDateRange);
+    };
+
+    const handleClearFilters = () => {
+        setValue('');
+        setName(undefined);
+        setDateRange([new Date(), new Date()]);
     };
     return (
         <>
@@ -24,6 +33,34 @@ const MaterialTypeIndex: React.FC<MaterialTypeIndexProps> = ({ title }) => {
                 component="h1"
                 gutterBottom
             >{title}</Typography>
+            <Divider sx={{ my: 2 }} />
+            <Stack spacing={2} direction="row">
+                <Input
+                    label="Nombre"
+                    value={value}
+                    type="search"
+                    onChange={(event) => setValue(event.target.value)}
+                    placeholder="Buscar"
+                />
+                <Dropdown
+                    label="Nombre"
+                    value={name}
+                    onChange={setName}
+                    options={[
+                        { label: 'Opción 1', value: '1' },
+                        { label: 'Opción 2', value: '2' },
+                    ]}
+                />
+                <MonthRangePicker
+                    value={dateRange}
+                    onChange={handleDateChange}
+                />
+                <ButtonClear
+                    label="Limpiar filtros"
+                    onClick={handleClearFilters}
+                />
+            </Stack>
+            <Divider sx={{ my: 2 }} />
             <Card>
                 <CardHeader title={
                     <MaterialType material="Gold" size="medium" label="PR Numero 98749849" />
@@ -42,6 +79,7 @@ const MaterialTypeIndex: React.FC<MaterialTypeIndexProps> = ({ title }) => {
                                 value={value}
                                 type="search"
                                 onChange={(event) => setValue(event.target.value)}
+                                placeholder="Buscar"
                             />
                         </Grid2>
                         <Grid2 size={2}>
@@ -49,6 +87,7 @@ const MaterialTypeIndex: React.FC<MaterialTypeIndexProps> = ({ title }) => {
                                 label="Nombre"
                                 value={value}
                                 onChange={(event) => setValue(event.target.value)}
+                                placeholder="Buscar"
                             />
                         </Grid2>
                         <Grid2 size={4}>
