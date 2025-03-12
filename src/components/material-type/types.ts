@@ -1,3 +1,3 @@
-export type Material = 'Gold' | 'Silver' | 'ExclusiveBrand' | 'Collected';
+export type Material = 'Gold' | 'Silver' | 'ExclusiveBrand' | 'Collected' | string;
 
-export type Size = 'small' | 'medium' | 'large';
+export type Size = 'small' | 'medium';
