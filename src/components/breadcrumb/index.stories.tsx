@@ -1,31 +1,22 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import HomeIcon from '@mui/icons-material/Home';
-import SettingsIcon from '@mui/icons-material/Settings';
-
+import { Meta, StoryObj } from '@storybook/react';
 import Breadcrumb from './index';
+import { MenuItem, Select } from '@mui/material';
 
 const meta = {
   title: 'components/Breadcrumb',
   component: Breadcrumb,
-  // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
   parameters: {
-    // More on how to position stories at: https://storybook.js.org/docs/configure/story-layout
     layout: 'centered',
   },
   argTypes: {
-    path: {
+    items: {
       control: 'object',
-      description: 'Breadcrumb path',
+      description: 'Breadcrumb items',
     },
-    buttonLabel: {
-      control: 'text',
-      description: 'Text for the action button',
-      value: 'Agregar',
-    },
-    onButtonClick: {
-      action: 'clicked',
-      description: 'Triggered when the button is clicked',
+    action: {
+      action: 'text',
+      description: 'Custom action element',
     },
   },
 } satisfies Meta<typeof Breadcrumb>;
@@ -36,12 +27,19 @@ type Story = StoryObj<typeof meta>;
 
 export const Component: Story = {
   args: {
-    path: [
-      { label: 'Inicio', link: '/#', icon: <HomeIcon /> },
-      { label: 'Configuración', icon: <SettingsIcon /> },
+    items: [
+      { label: 'Inicio', link: '/#'},
+      { label: 'Configuración', link: '/#'},
       { label: 'Tipo de Material' },
     ],
-    buttonLabel: 'Agregar',
-    onButtonClick: () => alert('Button clicked'),
+    action: (
+      <Select defaultValue="" displayEmpty>
+        <MenuItem value="" disabled>
+          Agregar
+        </MenuItem>
+        <MenuItem value="1">Opción 1</MenuItem>
+        <MenuItem value="2">Opción 2</MenuItem>
+      </Select>
+    ),
   },
 };

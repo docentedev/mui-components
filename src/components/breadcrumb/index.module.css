@@ -1,0 +1,7 @@
+.container {
+  display: flex;
+  align-items: center;
+}
+.action {
+    margin-left: 16px;
+}
