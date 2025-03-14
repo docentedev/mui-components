@@ -1,13 +1,13 @@
 import { Meta, StoryObj } from '@storybook/react';
-import Breadcrumb from './index';
 import { MenuItem, Select } from '@mui/material';
+import Breadcrumb from './index';
 
 const meta = {
   title: 'components/Breadcrumb',
   component: Breadcrumb,
   tags: ['autodocs'],
   parameters: {
-    layout: 'centered',
+    layout: 'padded',
   },
   argTypes: {
     items: {

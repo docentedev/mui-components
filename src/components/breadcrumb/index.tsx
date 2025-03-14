@@ -28,7 +28,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ items, action }) => {
           )
         )}
       </Breadcrumbs>
-      {action && <div className={styles.action}>{action}</div>}
+      {action && <div>{action}</div>}
     </div>
   );
 };
