@@ -14,7 +14,7 @@ const mockI18n: Partial<I18N> = {
 
 describe('AlertCard Component', () => {
   test('should render when open', () => {
-    render(<AlertCard open={true} i18n={mockI18n} type='success' onClose={() => {}} />);
+    render(<AlertCard open={true} i18n={mockI18n} severity='success' onClose={() => {}} />);
 
     expect(screen.getByText('Success title')).toBeInTheDocument();
     expect(screen.getByText('Success text')).toBeInTheDocument();
@@ -23,7 +23,7 @@ describe('AlertCard Component', () => {
   test('should call onClose when close button is clicked', () => {
     const onCloseMock = vi.fn();
 
-    render(<AlertCard open={true} i18n={mockI18n} type='success' onClose={onCloseMock} />);
+    render(<AlertCard open={true} i18n={mockI18n} severity='success' onClose={onCloseMock} />);
 
     fireEvent.click(screen.getByRole('button'));
 

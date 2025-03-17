@@ -12,17 +12,17 @@ const initialState18N: I18N = {
 
 interface alertCardIndexProps {
   i18n?: Partial<I18N>;
-  type: 'error' | 'warning' | 'info' | 'success';
+  severity: 'error' | 'warning' | 'info' | 'success';
   open: boolean;
   onClose: () => void;
 }
 
-const AlertCard: React.FC<alertCardIndexProps> = ({ i18n, type, open, onClose }) => {
+const AlertCard: React.FC<alertCardIndexProps> = ({ i18n, severity, open, onClose }) => {
   const lang = i18n ? { ...initialState18N, ...i18n } : initialState18N;
 
   return (
     <Collapse in={open}>
-      <Alert severity={type} onClose={onClose}>
+      <Alert severity={severity} onClose={onClose}>
         <AlertTitle>{lang.title}</AlertTitle>
         {lang.text}
       </Alert>

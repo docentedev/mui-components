@@ -14,12 +14,12 @@ const meta = {
       title: 'Information',
       text: 'This is an informational alert.',
     },
-    type: 'info',
+    severity: 'info',
     open: true,
     onClose: () => {},
   },
   argTypes: {
-    type: {
+    severity: {
       control: 'select',
       options: ['error', 'warning', 'info', 'success'],
     },
@@ -38,7 +38,7 @@ export const Component: Story = {
       title: 'Information',
       text: 'Alert text',
     },
-    type: 'info',
+    severity: 'info',
     open: true,
     onClose: () => {},
   },
