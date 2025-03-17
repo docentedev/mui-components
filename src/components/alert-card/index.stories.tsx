@@ -11,12 +11,21 @@ const meta = {
   },
   args: {
     i18n: {
-      type: 'info',
       title: 'Information',
-      label: 'This is an informational alert.',
+      text: 'This is an informational alert.',
     },
+    type: 'info',
     open: true,
     onClose: () => {},
+  },
+  argTypes: {
+    type: {
+      control: 'select',
+      options: ['error', 'warning', 'info', 'success'],
+    },
+    open: {
+      control: 'boolean',
+    },
   },
 } satisfies Meta<typeof AlertCard>;
 
@@ -26,10 +35,10 @@ type Story = StoryObj<typeof meta>;
 export const Component: Story = {
   args: {
     i18n: {
-      type: 'info',
       title: 'Information',
-      label: 'Alert label',
+      text: 'Alert text',
     },
+    type: 'info',
     open: true,
     onClose: () => {},
   },

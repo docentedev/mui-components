@@ -3,29 +3,27 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import AlertCard from './index';
 
 interface I18N {
-  type: 'success' | 'error' | 'warning' | 'info';
   title: string;
-  label: string;
+  text: string;
 }
 
 const mockI18n: Partial<I18N> = {
-  type: 'success',
   title: 'Success title',
-  label: 'Success label',
+  text: 'Success text',
 };
 
 describe('AlertCard Component', () => {
   test('should render when open', () => {
-    render(<AlertCard open={true} i18n={mockI18n} onClose={() => {}} />);
+    render(<AlertCard open={true} i18n={mockI18n} type='success' onClose={() => {}} />);
 
     expect(screen.getByText('Success title')).toBeInTheDocument();
-    expect(screen.getByText('Success label')).toBeInTheDocument();
+    expect(screen.getByText('Success text')).toBeInTheDocument();
   });
 
   test('should call onClose when close button is clicked', () => {
     const onCloseMock = vi.fn();
 
-    render(<AlertCard open={true} i18n={mockI18n} onClose={onCloseMock} />);
+    render(<AlertCard open={true} i18n={mockI18n} type='success' onClose={onCloseMock} />);
 
     fireEvent.click(screen.getByRole('button'));
 
