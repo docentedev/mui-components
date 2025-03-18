@@ -1,40 +1,50 @@
 import {
+  Autocomplete,
   FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-} from '@mui/material';
+  TextField,
+} from "@mui/material";
 
-interface DropdownProps {
+interface I18N {
   label: string;
   families: string[];
+}
+
+const initialStateI18n: I18N = {
+  label: "Family",
+  families: ["Oro", "Plata"],
+};
+
+interface DropdownProps {
+  i18n?: Partial<I18N>;
   value: string;
-  onChange: (event: SelectChangeEvent<string>) => void;
+  onChange: (event: React.SyntheticEvent<Element, Event>, value: string) => void;
   filterFamilies?: (families: string[]) => string[];
 }
 
 const FamilyDropdown: React.FC<DropdownProps> = ({
-  label,
-  families,
+  i18n,
   value,
   onChange,
   filterFamilies,
 }) => {
-  const filteredFamilies = filterFamilies ? filterFamilies(families) : families;
+  const lang = i18n ? { ...initialStateI18n, ...i18n } : initialStateI18n;
+  const filteredFamilies = filterFamilies
+    ? filterFamilies(lang.families)
+    : lang.families;
 
-  return (
-    <FormControl fullWidth>
-      <InputLabel>{label}</InputLabel>
-      <Select value={value} onChange={onChange}>
-        {filteredFamilies.map((family) => (
-          <MenuItem key={family} value={family}>
-            {family}
-          </MenuItem>
-        ))}
-      </Select>
-    </FormControl>
-  );
+    return (
+      <FormControl fullWidth>
+        <Autocomplete
+          id="dropdown-id"
+          value={value}
+          onChange={(event, value) => onChange(event, value)}
+          options={filteredFamilies}
+          renderInput={(params) => <TextField {...params} label={lang.label} />}
+          isOptionEqualToValue={(option, value) => option === value}
+          disableClearable
+        />
+      </FormControl>
+    );
 };
 
 export default FamilyDropdown;
