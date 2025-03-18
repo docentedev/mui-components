@@ -1,10 +1,10 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, expect, test, vi } from 'vitest';
-import ModalInputIndex from './index';
+import ConfirmationModal from './index';
 
 const mockI18n = {
-  title: 'Modal input',
-  label: 'Label',
+  title: 'Modal Confirmation',
+  text: 'text',
   success: 'Success',
   cancel: 'cancel',
 };
@@ -12,11 +12,9 @@ const mockI18n = {
 describe('ModalInputIndex', () => {
   test('should render when open', () => {
     render(
-      <ModalInputIndex
+      <ConfirmationModal
         open
-        value=''
         onClose={() => {}}
-        onChange={() => {}}
         onSuccess={() => {}}
         i18n={mockI18n}
       />
@@ -30,11 +28,9 @@ describe('ModalInputIndex', () => {
     const onCloseMock = vi.fn();
 
     render(
-      <ModalInputIndex
+      <ConfirmationModal
         open
-        value=''
         onClose={onCloseMock}
-        onChange={() => {}}
         onSuccess={() => {}}
         i18n={mockI18n}
       />
