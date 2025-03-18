@@ -1,18 +1,18 @@
-import { Meta, StoryObj } from "@storybook/react";
-import { useState } from "react";
-import FamilyDropdown from ".";
+import { Meta, StoryObj } from '@storybook/react';
+import { useState } from 'react';
+import FamilyDropdown from '.';
 
 const meta = {
-  title: "components/FamilyDropdown",
+  title: 'components/FamilyDropdown',
   component: FamilyDropdown,
-  tags: ["autodocs"],
+  tags: ['autodocs'],
   parameters: {
-    layout: "padded",
+    layout: 'padded',
   },
   argTypes: {
     filterFamilies: {
-      control: "text",
-      description: "Filter function",
+      control: 'text',
+      description: 'Filter function',
     },
   },
 } satisfies Meta<typeof FamilyDropdown>;
@@ -29,21 +29,21 @@ const FamilyDropdownWithState = (args: {
   filterFamilies?: (families: string[]) => string[];
   i18n: I18N;
 }) => {
-  const [selectedFamily, setSelectedFamily] = useState<string>("");
+  const [selectedFamily, setSelectedFamily] = useState<string>('');
 
   const filteredFamilies = args.filterFamilies
-    ? args.filterFamilies(["Family A", "Family B", "Family C"])
-    : ["Family A", "Family B", "Family C"];
+    ? args.filterFamilies(['Family A', 'Family B', 'Family C'])
+    : ['Family A', 'Family B', 'Family C'];
 
   return (
     <div>
       <p>Selected Value: {selectedFamily}</p>
-      
+
       <FamilyDropdown
         {...args}
         value={selectedFamily}
-        i18n={{ label: args.i18n?.label || "", families: filteredFamilies }}
-        onChange={(_event, value) => setSelectedFamily(value)} 
+        i18n={{ label: args.i18n?.label || '', families: filteredFamilies }}
+        onChange={(_event, value) => setSelectedFamily(value)}
       />
     </div>
   );
@@ -54,13 +54,13 @@ export const Component: Story = {
     <FamilyDropdownWithState {...args} i18n={args.i18n as I18N} />
   ),
   args: {
-    value: "",
-    onChange: () => {}, 
+    value: '',
+    onChange: () => {},
     i18n: {
-      label: "Seleccionar Familia",
-      families: ["Family A", "Family B", "Family C"],
+      label: 'Seleccionar Familia',
+      families: ['Family A', 'Family B', 'Family C'],
     } as I18N,
     filterFamilies: (families: string[]) =>
-      families.filter((family) => family.includes("Family")),
+      families.filter((family) => family.includes('Family')),
   },
 };

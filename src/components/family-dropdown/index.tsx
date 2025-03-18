@@ -1,8 +1,4 @@
-import {
-  Autocomplete,
-  FormControl,
-  TextField,
-} from "@mui/material";
+import { Autocomplete, FormControl, TextField } from '@mui/material';
 
 interface I18N {
   label: string;
@@ -10,14 +6,17 @@ interface I18N {
 }
 
 const initialStateI18n: I18N = {
-  label: "Family",
-  families: ["Oro", "Plata"],
+  label: 'Family',
+  families: ['Oro', 'Plata'],
 };
 
 interface DropdownProps {
   i18n?: Partial<I18N>;
   value: string;
-  onChange: (event: React.SyntheticEvent<Element, Event>, value: string) => void;
+  onChange: (
+    event: React.SyntheticEvent<Element, Event>,
+    value: string
+  ) => void;
   filterFamilies?: (families: string[]) => string[];
 }
 
@@ -32,19 +31,19 @@ const FamilyDropdown: React.FC<DropdownProps> = ({
     ? filterFamilies(lang.families)
     : lang.families;
 
-    return (
-      <FormControl fullWidth>
-        <Autocomplete
-          id="dropdown-id"
-          value={value}
-          onChange={(event, value) => onChange(event, value)}
-          options={filteredFamilies}
-          renderInput={(params) => <TextField {...params} label={lang.label} />}
-          isOptionEqualToValue={(option, value) => option === value}
-          disableClearable
-        />
-      </FormControl>
-    );
+  return (
+    <FormControl fullWidth>
+      <Autocomplete
+        id='dropdown-id'
+        value={value}
+        onChange={(event, value) => onChange(event, value)}
+        options={filteredFamilies}
+        renderInput={(params) => <TextField {...params} label={lang.label} />}
+        isOptionEqualToValue={(option, value) => option === value}
+        disableClearable
+      />
+    </FormControl>
+  );
 };
 
 export default FamilyDropdown;
