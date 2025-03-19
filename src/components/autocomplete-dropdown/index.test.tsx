@@ -4,19 +4,19 @@ import userEvent from '@testing-library/user-event';
 import FamilyDropdown from './index';
 
 describe('FamilyDropdown', () => {
-  const families = ['Oro', 'Plata'];
+  const categories = ['Oro', 'Plata'];
 
   test('should render the label correctly', () => {
     render(
       <FamilyDropdown
-        i18n={{ label: 'Seleccionar Familia', families }}
+        i18n={{ label: 'Seleccionar Categoria', categories }}
         value=''
         onChange={() => {}}
       />
     );
 
     const selectInput = screen.getByRole('combobox', {
-      name: 'Seleccionar Familia',
+      name: 'Seleccionar Categoria',
     });
     expect(selectInput).toBeInTheDocument();
   });
@@ -24,14 +24,14 @@ describe('FamilyDropdown', () => {
   test('should show options when clicked', async () => {
     render(
       <FamilyDropdown
-        i18n={{ label: 'Seleccionar Familia', families }}
+        i18n={{ label: 'Seleccionar Categoria', categories }}
         value=''
         onChange={() => {}}
       />
     );
 
     const selectInput = screen.getByRole('combobox', {
-      name: 'Seleccionar Familia',
+      name: 'Seleccionar Categoria',
     });
 
     await userEvent.click(selectInput);
@@ -47,14 +47,14 @@ describe('FamilyDropdown', () => {
 
     render(
       <FamilyDropdown
-        i18n={{ label: 'Seleccionar Familia', families }}
+        i18n={{ label: 'Seleccionar Categoria', categories }}
         value=''
         onChange={handleChange}
       />
     );
 
     const selectInput = screen.getByRole('combobox', {
-      name: 'Seleccionar Familia',
+      name: 'Seleccionar Categoria',
     });
 
     await userEvent.click(selectInput);
