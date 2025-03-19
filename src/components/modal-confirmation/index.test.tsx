@@ -1,18 +1,18 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, expect, test, vi } from 'vitest';
-import ConfirmationModal from './index';
+import ModalConfirm from './index';
 
 const mockI18n = {
-  title: 'Modal Confirmation',
+  title: 'Modal Confirm',
   text: 'text',
   success: 'Success',
   cancel: 'cancel',
 };
 
-describe('ModalInputIndex', () => {
+describe('ModalConfirmIndex', () => {
   test('should render when open', () => {
     render(
-      <ConfirmationModal
+      <ModalConfirm
         open
         onClose={() => {}}
         onSuccess={() => {}}
@@ -28,7 +28,7 @@ describe('ModalInputIndex', () => {
     const onCloseMock = vi.fn();
 
     render(
-      <ConfirmationModal
+      <ModalConfirm
         open
         onClose={onCloseMock}
         onSuccess={() => {}}

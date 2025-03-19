@@ -24,14 +24,14 @@ const initialStateI18n: I18N = {
   cancel: 'Cancel',
 };
 
-interface ModalInputIndexProps {
+interface ModalConfirmIndexProps {
   open: boolean;
   onClose: () => void;
   onSuccess: () => void;
   i18n?: Partial<I18N>;
 }
 
-const ConfirmationModal: React.FC<ModalInputIndexProps> = ({
+const ModalConfirm: React.FC<ModalConfirmIndexProps> = ({
   open,
   onClose,
   onSuccess,
@@ -64,4 +64,4 @@ const ConfirmationModal: React.FC<ModalInputIndexProps> = ({
   );
 };
 
-export default ConfirmationModal;
+export default ModalConfirm;

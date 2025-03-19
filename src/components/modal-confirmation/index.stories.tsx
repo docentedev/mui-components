@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { Meta, StoryObj } from '@storybook/react';
-import ConfirmationModal from '.';
+import ModalConfirm from '.';
 
 const meta = {
-  title: 'components/ConfirmationModal',
-  component: ConfirmationModal,
+  title: 'components/ModalConfirm',
+  component: ModalConfirm,
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
@@ -23,7 +23,7 @@ const meta = {
   argTypes: {
     open: { control: 'boolean' },
   },
-} satisfies Meta<typeof ConfirmationModal>;
+} satisfies Meta<typeof ModalConfirm>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -37,7 +37,7 @@ export const Component: Story = {
       const [open, setOpen] = useState(args.open);
 
       return (
-        <ConfirmationModal
+        <ModalConfirm
           {...args}
           open={open}
           onClose={() => setOpen(false)}
