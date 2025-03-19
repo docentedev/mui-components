@@ -1,4 +1,4 @@
-import { Alert, AlertTitle, Collapse } from '@mui/material';
+import { Alert, AlertColor, AlertTitle, Collapse } from '@mui/material';
 
 interface I18N {
   title: string;
@@ -12,7 +12,7 @@ const initialState18N: I18N = {
 
 interface alertCardIndexProps {
   i18n?: Partial<I18N>;
-  severity: 'error' | 'warning' | 'info' | 'success';
+  severity: AlertColor,
   open: boolean;
   onClose: () => void;
 }

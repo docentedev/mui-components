@@ -3,7 +3,7 @@ import { Meta, StoryObj } from '@storybook/react';
 import AlertCard from './index';
 
 const meta = {
-  title: 'components/alert-card',
+  title: 'components/AlertCard',
   component: AlertCard,
   tags: ['autodocs'],
   parameters: {
@@ -11,10 +11,10 @@ const meta = {
   },
   args: {
     i18n: {
-      title: 'Information',
-      text: 'This is an informational alert.',
+      title: 'Pre Resolución',
+      text: 'Esta Pre Resolución no posee contratos asociados',
     },
-    severity: 'info',
+    severity: 'warning',
     open: true,
     onClose: () => {},
   },
@@ -35,10 +35,10 @@ type Story = StoryObj<typeof meta>;
 export const Component: Story = {
   args: {
     i18n: {
-      title: 'Information',
-      text: 'Alert text',
+      title: 'Pre Resolución',
+      text: 'Esta Pre Resolución no posee contratos asociados',
     },
-    severity: 'info',
+    severity: 'warning',
     open: true,
     onClose: () => {},
   },

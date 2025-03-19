@@ -9,7 +9,8 @@ const CollectedDark = '#0a4067';
 
 const PrimaryMain = 'hsl(45.1deg 30% 50%)';
 const PrimaryLight = 'hsl(45.1deg 100% 90%)';
-const PrimaryDark = 'hsl(45.1deg 30% 45%)'; // versión Dark se resta 10% de L y H
+ // versión Dark se resta 10% de L y H
+const PrimaryDark = 'hsl(45.1deg 30% 45%)';
 
 const SecondaryMain = 'hsl(0deg 0% 78.82%)';
 // versión Dark se suma 10% de L y H
