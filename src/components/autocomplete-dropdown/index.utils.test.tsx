@@ -1,27 +1,10 @@
-import { describe, expect, test, vi } from 'vitest';
+import { describe, expect, test } from 'vitest';
 import { AutocompleteRenderInputParams } from '@mui/material';
 import { render, screen } from '@testing-library/react';
 import {
-  handleAutocompleteChange,
   isOptionEqualToValue,
   renderInputHandler,
 } from './index.utils';
-
-describe('handleAutocompleteChange', () => {
-  test('should call onChange with new value', () => {
-    const onChangeMock = vi.fn();
-    const event = {
-      preventDefault: () => {},
-      stopPropagation: () => {},
-      nativeEvent: new Event('change'),
-    } as React.SyntheticEvent;
-    const newValue = 'Nuevo valor';
-
-    handleAutocompleteChange(event, newValue, onChangeMock);
-
-    expect(onChangeMock).toHaveBeenCalledWith(event, newValue);
-  });
-});
 
 describe('isOptionEqualToValue', () => {
   test('should return true if option equals value', () => {

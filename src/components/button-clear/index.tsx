@@ -10,6 +10,8 @@ interface ButtonClearProps {
 
 const ButtonClear: React.FC<ButtonClearProps> = ({ onClick, label, disabled }) => {
     return <Button
+        sx={{ minWidth: 'fit-content' }}
+        size="small"
         variant="contained"
         color="primary"
         startIcon={<ClearIcon />}

@@ -1,14 +1,14 @@
 import { FormControl, InputLabel, Select, MenuItem, SelectChangeEvent } from "@mui/material";
 import { useId } from "react";
 
-type Item = {
+export type Item = {
     value: string;
     label: string;
 };
 
 interface DropdownProps {
     value?: Item;
-    onChange: (item: Item) => void;
+    onChange: (item?: Item) => void;
     options: Item[];
     label: string;
 }
@@ -24,7 +24,7 @@ const Dropdown: React.FC<DropdownProps> = ({ value, onChange, options, label }) 
             <Select
                 labelId={id}
                 id={`select-${id}`}
-                value={value?.value}
+                value={value?.value || ''}
                 label={label}
                 onChange={handleChange}
             >

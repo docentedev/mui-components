@@ -1,19 +1,11 @@
-import { AutocompleteRenderInputParams, TextField } from '@mui/material';
+import { TextField } from '@mui/material';
+import { Item } from '../dropdown';
 
-export const handleAutocompleteChange = (
-  event: React.SyntheticEvent<Element, Event>,
-  newValue: string,
-  onChange: (event: React.SyntheticEvent<Element, Event>, value: string) => void
-) => {
-  onChange(event, newValue);
+export const isOptionEqualToValue = (option: Item, value: string) => {
+  return option.value === value;
 };
 
-export const isOptionEqualToValue = (option: string, value: string) => {
-  return option === value;
-};
-
-export const renderInputHandler = (label: string) => {
-  return (params: AutocompleteRenderInputParams) => (
-    <TextField {...params} label={label} />
-  );
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const renderInputHandler = (label: string) => (params: any) => {
+  return <TextField {...params} label={label} variant="outlined" />;
 };

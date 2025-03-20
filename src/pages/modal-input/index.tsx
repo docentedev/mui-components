@@ -1,12 +1,15 @@
 import { Button, Typography } from '@mui/material';
 import { useState } from 'react';
 import ModalInput from '../../components/modal-input';
+import Modal from '../../components/modal';
 
 interface ModalInputIndexProps {
   title: string;
 }
 
 const ModalInputIndex: React.FC<ModalInputIndexProps> = ({ title }) => {
+  const [openConfirm, setOpenConfirm] = useState(false);
+  const [openInvetory, setOpenInventory] = useState(false);
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('');
   const [message, setMessage] = useState('');
@@ -41,6 +44,38 @@ const ModalInputIndex: React.FC<ModalInputIndexProps> = ({ title }) => {
         value={value}
         onChange={handleChange}
         onSuccess={handleSucceed}
+      />
+
+      <Button variant="contained" color="primary" onClick={() => setOpenConfirm(true)}>
+        Envio de Pre Resolución
+      </Button>
+
+      <Modal
+        onClose={() => setOpenConfirm(false)}
+        onSuccess={() => setMessage('Confirmado')}
+        open={openConfirm}
+        i18n={{
+          title: 'Envio de Pre Resolución',
+          description: '¿Esta seguro que desea enviar la Pre Resolución?',
+          success: 'Enviar',
+          cancel: 'No enviar',
+        }}
+      />
+
+      <Button variant="contained" color="primary" onClick={() => setOpenInventory(true)}>
+        Inventario
+      </Button>
+
+      <Modal
+        onClose={() => setOpenInventory(false)}
+        onSuccess={() => setMessage('Inventario confirmado')}
+        open={openInvetory}
+        i18n={{
+          title: 'Inventario',
+          description: '¿Esta seguro que desea confirmar el inventario?',
+          success: 'Confirmar',
+          cancel: 'Cancelar',
+        }}
       />
 
       <Typography>

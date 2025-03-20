@@ -4,14 +4,15 @@ import userEvent from '@testing-library/user-event';
 import FamilyDropdown from './index';
 
 describe('FamilyDropdown', () => {
-  const categories = ['Oro', 'Plata'];
+  const categories = [{ value: 'Oro', label: 'Oro' }, { value: 'Plata', label: 'Plata' }];
 
   test('should render the label correctly', () => {
     render(
       <FamilyDropdown
-        i18n={{ label: 'Seleccionar Categoria', categories }}
+        i18n={{ label: 'Seleccionar Categoria' }}
         value=''
-        onChange={() => {}}
+        onChange={() => { }}
+        options={categories}
       />
     );
 
@@ -24,9 +25,10 @@ describe('FamilyDropdown', () => {
   test('should show options when clicked', async () => {
     render(
       <FamilyDropdown
-        i18n={{ label: 'Seleccionar Categoria', categories }}
+        i18n={{ label: 'Seleccionar Categoria' }}
         value=''
-        onChange={() => {}}
+        onChange={() => { }}
+        options={categories}
       />
     );
 
@@ -47,9 +49,10 @@ describe('FamilyDropdown', () => {
 
     render(
       <FamilyDropdown
-        i18n={{ label: 'Seleccionar Categoria', categories }}
+        i18n={{ label: 'Seleccionar Categoria' }}
         value=''
         onChange={handleChange}
+        options={categories}
       />
     );
 
