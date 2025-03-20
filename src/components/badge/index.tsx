@@ -1,6 +1,10 @@
-import { IconButton, ListItemText, Menu, MenuItem, Stack } from "@mui/material";
-import Badge from "@mui/material/Badge";
-import { getUnreadNotifications, Notification } from "./index.utils";
+import { IconButton, ListItemText, Menu, MenuItem, Stack } from '@mui/material';
+import Badge from '@mui/material/Badge';
+import {
+  getUnreadNotifications,
+  Notification,
+  useNotificationHandler,
+} from './index.utils';
 
 interface BadgeIndexProps {
   icon: React.ReactNode;
@@ -18,21 +22,18 @@ const BadgeComponent: React.FC<BadgeIndexProps> = ({
   notifications,
   open,
   anchorEl,
-  onClose,
   onNotificationClick,
+  onClose,
   onClick,
-  emptyMessage = "No hay notificaciones",
+  emptyMessage = 'No hay notificaciones',
 }) => {
   const unreadNotifications = getUnreadNotifications(notifications);
-
-  const handleNotificationClick = (id: number) => {
-    onNotificationClick(id); // Delegamos la lógica al prop
-  };
+  const handleClick = useNotificationHandler(onNotificationClick);
 
   return (
     <Stack>
       <IconButton onClick={onClick}>
-        <Badge badgeContent={unreadNotifications.length} color="error">
+        <Badge badgeContent={unreadNotifications.length} color='error'>
           {icon}
         </Badge>
       </IconButton>
@@ -42,7 +43,7 @@ const BadgeComponent: React.FC<BadgeIndexProps> = ({
           unreadNotifications.map((notification) => (
             <MenuItem
               key={notification.id}
-              onClick={handleNotificationClick}
+              onClick={handleClick(notification.id)}
             >
               <ListItemText primary={notification.message} />
             </MenuItem>
